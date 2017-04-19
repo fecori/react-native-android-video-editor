@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <view
+            class="rahmatzulfikri.com.androidvideoedit.Util.VideoSurfaceView"
+            android:id="@+id/videoSurfaceView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ProgressBar
+            android:id="@+id/progressView"
+            android:layout_centerInParent="true"
+            android:layout_width="200px"
+            android:layout_height="200px" />
+
+        <ImageView
+            android:id="@+id/buttonPlay"
+            android:src="@drawable/ic_play_arrow"
+            android:layout_centerInParent="true"
+            android:background="@drawable/circle"
+            android:layout_width="200px"
+            android:layout_height="200px"
+            android:visibility="invisible"/>
+
+        <ImageView
+            android:id="@+id/buttonCrop"
+            android:layout_alignBottom="@+id/videoSurfaceView"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_crop_square"
+            android:background="@drawable/circle"
+            android:layout_marginRight="25px"
+            android:layout_marginBottom="45px"
+            android:padding="5px"
+            android:layout_width="65px"
+            android:layout_height="65px"
+            android:visibility="invisible"/>
+
+        <ImageView
+            android:id="@+id/buttonRePlay"
+            android:src="@drawable/ic_replay"
+            android:layout_centerInParent="true"
+            android:background="@drawable/circle"
+            android:layout_width="200px"
+            android:layout_height="200px"
+            android:visibility="gone"/>
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:max="100"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black_translucent"
+            android:layout_alignBottom="@+id/videoSurfaceView"
+            android:visibility="invisible"
+            />
+    </RelativeLayout>
+
+</LinearLayout>

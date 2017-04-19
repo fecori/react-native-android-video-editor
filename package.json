@@ -1,0 +1,34 @@
+{
+  "name": "react-native-video-android-video-editor",
+  "version": "1.0.0",
+  "description": "React Native Android Component For Video Editor (Preview Only)",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RZulfikri/react-native-android-video-editor.git"
+  },
+  "keywords": [
+    "react",
+    "react-native",
+    "android",
+    "video",
+    "editor",
+    "edit",
+    "videoedit"
+  ],
+  "author": "Rahmat Zulfikri <me@rahmatzulfikri.xyz>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RZulfikri/react-native-android-video-editor/issues"
+  },
+  "jest": {
+    "preset": "jest-react-native"
+  },
+  "homepage": "https://github.com/RZulfikri/react-native-android-video-editor#readme",
+  "dependencies": {},
+  "devDependencies": {},
+   "peerDependencies": {
+    "react-native": ">=0.35"
+  }
+}
