@@ -6,7 +6,7 @@ import com.facebook.react.uimanager.ThemedReactContext;
 
 import android.util.Log;
 
-import rahmatzulfikri.com.androidvideofilter.Util.VideoSurfaceView;
+import rahmatzulfikri.com.androidvideoedit.Util.VideoSurfaceView;
 
 public class RNVideoPlayerManager extends SimpleViewManager<VideoSurfaceView>{
     private static final String REACT_CLASS = "RNVideoPLayer";
@@ -39,12 +39,12 @@ public class RNVideoPlayerManager extends SimpleViewManager<VideoSurfaceView>{
 
     @ReactProp(name = PROPS_CROP, defaultBoolean = false)
     public void setCrop(VideoSurfaceView videoSurfaceView, boolean crop){
-        videoSurfaceView.setCrop(crop);
+        videoSurfaceView.setSquareCenter(crop);
     }
 
     @ReactProp(name = PROPS_AUTOPLAY, defaultBoolean = false)
     public void setAutoPlay(VideoSurfaceView videoSurfaceView, boolean autoplay){
-        videoSurfaceView.setAutoPlay(autoplay);
+        videoSurfaceView.setAutoplay(autoplay);
     }
 
     @ReactProp(name = PROPS_FILTER, defaultInt = 0)
