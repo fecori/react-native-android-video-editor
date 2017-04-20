@@ -44,6 +44,8 @@ import rahmatzulfikri.com.androidvideoedit.VideoEffect.TintEffect;
 import rahmatzulfikri.com.androidvideoedit.VideoEffect.VignetteEffect;
 import rahmatzulfikri.com.androidvideoedit.VideoEffect.interfaces.ShaderInterface;
 
+import com.facebook.react.uimanager.ThemedReactContext;
+
 /**
  * This GLSurfaceView can be used to display video that is being played by media
  * player and at the same time different effect can be applied on the video.
@@ -57,7 +59,7 @@ public class VideoSurfaceView extends GLSurfaceView {
     private VideoSurfaceView.VideoRender mRenderer;
     private MediaPlayer mMediaPlayer = null;
     private static VideoSurfaceView mSurfaceView;
-    private Context mContext;
+    private ThemedReactContext mContext;
     private static ShaderInterface effect;
     private static boolean HORIZONTAL_VIDEO = true;
     private static boolean VERTICAL_VIDEO = false;
@@ -73,7 +75,7 @@ public class VideoSurfaceView extends GLSurfaceView {
     private boolean onMeasured = false;
     private int selectedFilter = 0;
 
-    public VideoSurfaceView(Context context) {
+    public VideoSurfaceView(ThemedReactContext context) {
         super(context);
         mContext = context;
         setEGLContextClientVersion(2);
@@ -93,7 +95,7 @@ public class VideoSurfaceView extends GLSurfaceView {
 //        });
     }
 
-    public VideoSurfaceView(Context context, AttributeSet attrs) {
+    public VideoSurfaceView(ThemedReactContext context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
         setEGLContextClientVersion(2);
@@ -488,7 +490,7 @@ public class VideoSurfaceView extends GLSurfaceView {
         private int currentTime = 0;
         private boolean playerReady = false;
 
-        public VideoRender(Context context) {
+        public VideoRender(ThemedReactContext context) {
             mTriangleVertices = ByteBuffer.allocateDirect(mTriangleVerticesData.length * FLOAT_SIZE_BYTES).order(ByteOrder.nativeOrder()).asFloatBuffer();
             mTriangleVertices.put(mTriangleVerticesData).position(0);
 

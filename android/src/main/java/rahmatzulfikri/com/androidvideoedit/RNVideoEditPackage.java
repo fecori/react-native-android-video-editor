@@ -1,4 +1,4 @@
-package rahmatzulfikri.com.androidvideoedit
+package rahmatzulfikri.com.androidvideoedit;
 
 import android.app.Activity;
 import com.facebook.react.ReactPackage;
