@@ -286,15 +286,6 @@ public class VideoTrim extends RelativeLayout {
     }
 
     /**
-     * Function to set VideoPlayerControl
-     * @param videoPlayerControl
-     * videoPlayerControl = VideoPlayerControl class, used to handle video player
-     */
-    public void setPlayer(VideoPlayerControl videoPlayerControl){
-        // this.videoPlayerControl = videoPlayerControl;
-    }
-
-    /**
      *
      * @param minTrimDuration
      * minTrimDuration in miliSecond (1000 = 1second), minTrimDuration should less than maxTrimDuration
