@@ -15,7 +15,9 @@ import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
 import rahmatzulfikri.com.androidvideoedit.Effect.NoEffect;
-
+/**
+ * Created by Rahmat Zulfikri on 3/21/17.
+ */
 public class VideoTextureRenderer extends TextureSurfaceRenderer implements SurfaceTexture.OnFrameAvailableListener {
     private static final String vertexShaderCode =
             "attribute vec4 vPosition;" +

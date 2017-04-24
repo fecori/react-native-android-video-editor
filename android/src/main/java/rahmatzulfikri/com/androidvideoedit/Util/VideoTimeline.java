@@ -9,6 +9,9 @@ import android.util.AttributeSet;
 import android.util.LongSparseArray;
 import android.view.View;
 
+/**
+ * Created by Rahmat Zulfikri on 3/21/17.
+ */
 public class VideoTimeline extends View {
 
     private String mVideoUri;
