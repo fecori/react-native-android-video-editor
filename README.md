@@ -10,6 +10,19 @@ This is react-native component for android, to handle video editor like trim vid
 
 # preview
 
+| Video Trim |
+| ----- |
+| ![Animated VideoTrim](http://i.imgur.com/0YGK73V.gif) |
+
+| Video Filter |
+| ----- |
+| ![Animated VideoFilter](http://i.imgur.com/jPaK9Xw.gif) |
+
+| Video Thumbnail |
+| ----- |
+| ![Animated VideoThumbnail](http://i.imgur.com/8L9em4p.gif) |
+
+
 # how to install
 For now you can add this component manually to your project, using :
 
