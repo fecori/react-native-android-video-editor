@@ -151,82 +151,72 @@ public class VideoPlayer extends TextureView implements TextureView.SurfaceTextu
                 fragmentShaderCode = new NoEffect().getVideoShader();
                 break;
             case 1:
-                fragmentShaderCode = new AutoFixEffect(0.3f).getVideoShader();
-                break;
-            case 2:
                 fragmentShaderCode = new BlackAndWhiteEffect().getVideoShader();
                 break;
-            case 3:
+            case 2:
                 fragmentShaderCode = new BrightnessEffect(0.5f).getVideoShader();
                 break;
-            case 4:
+            case 3:
                 fragmentShaderCode = new ContrastEffect(0.5f).getVideoShader();
                 break;
-            case 5:
+            case 4:
                 fragmentShaderCode = new CrossProcessEffect().getVideoShader();
                 break;
-            case 6:
+            case 5:
                 if(isCrop){
                     fragmentShaderCode = new DocumentaryEffect(surfaceWidth, surfaceHeight).getVideoShader();
                 }else{
                     fragmentShaderCode = new DocumentaryEffect(mMediaPlayer.getVideoWidth(), mMediaPlayer.getVideoHeight()).getVideoShader();
                 }
                 break;
-            case 7:
+            case 6:
                 fragmentShaderCode = new DuotoneEffect(Color.CYAN, Color.BLUE).getVideoShader();
                 break;
-            case 8:
+            case 7:
                 fragmentShaderCode = new FillLightEffect(0.5f).getVideoShader();
                 break;
-            case 9:
+            case 8:
                 fragmentShaderCode = new GammaEffect(1.0f).getVideoShader();
                 break;
-            case 10:
-                if(isCrop){
-                    fragmentShaderCode = new GrainEffect(0.5f, surfaceWidth, surfaceHeight).getVideoShader();
-                }else{
-                    fragmentShaderCode = new GrainEffect(0.5f, mMediaPlayer.getVideoWidth(), mMediaPlayer.getVideoHeight()).getVideoShader();
-                }
-                break;
-            case 11:
+            case 9:
                 fragmentShaderCode = new GreyScaleEffect().getVideoShader();
                 break;
-            case 12:
+            case 10:
                 fragmentShaderCode = new HueEffect(90f).getVideoShader();
                 break;
-            case 13:
+            case 11:
                 fragmentShaderCode = new InvertColorsEffect().getVideoShader();
                 break;
-            case 14:
+            case 12:
                 if(isCrop){
                     fragmentShaderCode = new LamoishEffect(surfaceWidth, surfaceHeight).getVideoShader();
                 }else{
                     fragmentShaderCode = new LamoishEffect(mMediaPlayer.getVideoWidth(), mMediaPlayer.getVideoHeight()).getVideoShader();
                 }
                 break;
-            case 15:
+            case 13:
                 fragmentShaderCode = new PosterizeEffect().getVideoShader();
                 break;
-            case 16:
+            case 14:
                 fragmentShaderCode = new SaturationEffect(0.1f).getVideoShader();
                 break;
-            case 17:
+            case 15:
                 fragmentShaderCode = new SepiaEffect().getVideoShader();
                 break;
-            case 18:
+            case 16:
                 if(isCrop){
                     fragmentShaderCode = new SharpnessEffect(0.5f, surfaceWidth, surfaceHeight).getVideoShader();
                 }else{
                     fragmentShaderCode = new SharpnessEffect(0.5f,mMediaPlayer.getVideoWidth(), mMediaPlayer.getVideoHeight()).getVideoShader();
                 }
                 break;
-            case 19:
+            case 17:
                 fragmentShaderCode = new TemperatureEffect(0.5f).getVideoShader();
                 break;
-            case 20:
+            case 18:
                 fragmentShaderCode = new TintEffect(Color.BLUE).getVideoShader();
                 break;
-            case 21:
+            case 19:
                 if(isCrop){
                     fragmentShaderCode = new VignetteEffect(0.5f, surfaceWidth, surfaceWidth).getVideoShader();
                 }else{
