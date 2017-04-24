@@ -26,7 +26,11 @@ public class RNVideoEditPackage implements ReactPackage {
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
         return Arrays.<ViewManager>asList(
-            new RNVideoPlayerManager()
+            new RNVideoPlayerManager(),
+            new RNVideoPlayerNewManager(),
+            new RNVideoTrimManager(),
+            new RNVideoImagePreviewManager(),
+            new RNVideoThumbnailManager()
             );
     }
 }

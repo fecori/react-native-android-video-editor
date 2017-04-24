@@ -1,4 +1,4 @@
-package rahmatzulfikri.com.androidvideoedit;
+package rahmatzulfikri.com.androidvideoedit.Util;
 
 import android.content.Context;
 import android.os.Handler;

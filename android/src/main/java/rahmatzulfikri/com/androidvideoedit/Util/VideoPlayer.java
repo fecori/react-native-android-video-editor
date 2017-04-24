@@ -1,4 +1,4 @@
-package rahmatzulfikri.com.androidvideoedit;
+package rahmatzulfikri.com.androidvideoedit.Util;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -56,6 +56,7 @@ public class VideoPlayer extends TextureView implements TextureView.SurfaceTextu
     private boolean isLooping = false;
     private boolean mediaPlayerReady = false;
     private boolean isTextureAvailable = false;
+    private boolean isSeekPlayer = false;
 
     private SurfaceTexture surfaceTexture;
     private SurfaceTexture surface = null;
@@ -82,7 +83,11 @@ public class VideoPlayer extends TextureView implements TextureView.SurfaceTextu
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         surfaceHeight = MeasureSpec.getSize(heightMeasureSpec);
         surfaceWidth = MeasureSpec.getSize(widthMeasureSpec);
-        this.setMeasuredDimension(surfaceWidth, surfaceWidth);
+        if(isSeekPlayer){
+            this.setMeasuredDimension(surfaceHeight, surfaceHeight);
+        }else{
+            this.setMeasuredDimension(surfaceWidth, surfaceWidth);
+        }
     }
 
     private void getSurface(){
@@ -93,12 +98,12 @@ public class VideoPlayer extends TextureView implements TextureView.SurfaceTextu
                 if (surface != null) {
                     Log.e("DEBUG", "MASUK SINI");
                     try {
-
                         mMediaPlayer.setDataSource(videoPath);
                         mRenderer.setMediaPlayer(mMediaPlayer);
                         mMediaPlayer.setScreenOnWhilePlaying(true);
                         mMediaPlayer.setSurface(new Surface(surface));
                         mMediaPlayer.prepare();
+                        Log.e("DEBUG", surfaceHeight + " " + surfaceWidth +" "+mMediaPlayer.getVideoWidth()+" "+ mMediaPlayer.getVideoHeight());
                         mRenderer.setDimension(mMediaPlayer.getVideoWidth(), mMediaPlayer.getVideoHeight());
                         mRenderer.setShader(fragmentShaderCode);
                         mRenderer.setCrop(isCrop);
@@ -134,6 +139,10 @@ public class VideoPlayer extends TextureView implements TextureView.SurfaceTextu
 
     public void setSource(String src){
         videoPath = src;
+    }
+
+    public void setSeekPlayer(boolean isSeekPlayer){
+        this.isSeekPlayer = isSeekPlayer;
     }
 
     public void setFilter(int filterCode){

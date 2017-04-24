@@ -1,4 +1,4 @@
-package rahmatzulfikri.com.androidvideoedit;
+package rahmatzulfikri.com.androidvideoedit.Util;
 
 import android.content.Context;
 import android.os.Build;
@@ -18,8 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 
 import java.lang.ref.WeakReference;
-
-import rahmatzulfikri.com.androidvideoedit.Util.VideoSurfaceView;
+import rahmatzulfikri.com.androidvideoedit.R;
 
 /**
  * Created by lembah8 on 4/18/17.

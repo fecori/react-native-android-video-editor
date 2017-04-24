@@ -57,6 +57,8 @@ public class CustomRangeSeekBarView extends View {
     private int currentThumb = 0;
     private int mMinWidth= 0;
 
+    private float minDuration = 0;
+
     public CustomRangeSeekBarView(@NonNull Context context) {
         this(context, null, 0);
     }
@@ -116,17 +118,19 @@ public class CustomRangeSeekBarView extends View {
 
         int minW = getPaddingLeft() + getPaddingRight() + getSuggestedMinimumWidth();
 //        mViewWidth = resolveSizeAndState(minW, widthMeasureSpec, 1);
-        mViewWidth = MeasureSpec.getSize(widthMeasureSpec);
+        mViewWidth = View.MeasureSpec.getSize(widthMeasureSpec);
 
         int minH = getPaddingBottom() + getPaddingTop() + (int) mThumbHeight + mHeightTimeLine;
 //        int viewHeight = resolveSizeAndState(minH, heightMeasureSpec, 1);
-        int viewHeight = MeasureSpec.getSize(heightMeasureSpec);
+        int viewHeight = View.MeasureSpec.getSize(heightMeasureSpec);
 
 //        Log.e("DEBUG", "MEASURE "+mViewWidth+" "+viewHeight);
         setMeasuredDimension(mViewWidth, viewHeight);
 
         mPixelRangeMin = 0;
         mPixelRangeMax = mViewWidth - mThumbWidth;
+
+        // Log.e("DEBUG", "MASUK ON MEASURE" + minDuration +" "+ mPixelRangeMax +" "+ mViewWidth +" "+mThumbWidth);
 //        if (mFirstRun) {
             for (int i = 0; i < mCustomThumbs.size(); i++) {
                 CustomSeek th = mCustomThumbs.get(i);
@@ -140,6 +144,11 @@ public class CustomRangeSeekBarView extends View {
 
         mMaxWidth = mCustomThumbs.get(1).getPos() - mCustomThumbs.get(0).getPos();
 //        Log.e("DEBUG", "INI MAX WIDTH" + mMaxWidth +" "+ mCustomThumbs.get(0).getPos() + " "+ mCustomThumbs.get(1).getPos() );
+
+        // Log.e("DEBUG", "MIN WIDTH "+minDuration+" "+mPixelRangeMax);
+        mMinWidth = Math.round((minDuration * mPixelRangeMax)/100f);
+        // Log.e("DEBUG", "MIN WIDTH "+(Math.round((minDuration * mPixelRangeMax)/100f)));
+        // Log.e("DEBUG", "MIN WIDTH "+mMinWidth);
 
         onSeekStop(this, 0, mCustomThumbs.get(0).getVal());
         onSeekStop(this, 1, mCustomThumbs.get(1).getVal());
@@ -190,6 +199,9 @@ public class CustomRangeSeekBarView extends View {
                 // Calculate the distance moved
                 final float dx = coordinate - mCustomThumb.getLastTouchX();
                 final float newX = mCustomThumb.getPos() + dx;
+
+                // Log.e("DEBUG", "MIN WIDTH0 "+this.mMinWidth);
+
                 if (currentThumb == 0) {
                     if (newX <= mPixelRangeMin) {
                         mCustomThumb.setPos(mPixelRangeMin);
@@ -349,7 +361,8 @@ public class CustomRangeSeekBarView extends View {
     }
 
     public void setRangeMin(float rangeMin){
-        this.mMinWidth = Math.round((rangeMin * mPixelRangeMax)/100f);
+        minDuration = rangeMin;
+        mMinWidth = Math.round((rangeMin * mPixelRangeMax)/100f);
     }
 
     private void drawThumbs(@NonNull Canvas canvas) {
