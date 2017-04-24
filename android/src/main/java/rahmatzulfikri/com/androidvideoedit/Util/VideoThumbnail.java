@@ -25,7 +25,7 @@ import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.facebook.react.bridge.LifecycleEventListener;
 
 /**
- * Created by lembah8 on 3/20/17.
+ * Created by Rahmat Zulfikri on 3/20/17.
  */
 
 public class VideoThumbnail extends RelativeLayout implements OnTouchListener{

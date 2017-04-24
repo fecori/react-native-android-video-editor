@@ -64,6 +64,7 @@ import android.support.annotation.NonNull;
  * This view uses shader for applying different effects.§
  *
  * @author sheraz.khilji
+ * @Modified Rahmat Zulfikri
  */
 @SuppressLint("ViewConstructor")
 public class VideoSurfaceView extends GLSurfaceView implements LifecycleEventListener, MediaPlayer.OnCompletionListener {
@@ -441,7 +442,7 @@ public class VideoSurfaceView extends GLSurfaceView implements LifecycleEventLis
     @Override
     public void onHostResume() {
         Log.e("DEBUG", "RESUME");
-        
+
         if(onPaused){
             try{
                 if(mMediaPlayer == null){
@@ -457,7 +458,7 @@ public class VideoSurfaceView extends GLSurfaceView implements LifecycleEventLis
             }catch(Exception e){
                 Log.e("DEBUG", "ERROR = "+e.toString());
             }
-            onPaused = false;   
+            onPaused = false;
         }
     }
 
@@ -825,7 +826,7 @@ public class VideoSurfaceView extends GLSurfaceView implements LifecycleEventLis
         }
 
         // public void seekTo(final int seek){
-            
+
         //     // Handler handler = new Handler();
         //     // handler.postDelayed(new Runnable() {
         //     //     @Override

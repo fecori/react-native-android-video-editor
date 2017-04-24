@@ -21,9 +21,8 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.Arguments;
 
 /**
- * Created by lembah8 on 3/20/17.
+ * Created by Rahmat Zulfikri on 3/20/17.
  */
-
 public class VideoTrim extends RelativeLayout {
 
     private VideoTimeline videoTimeline;

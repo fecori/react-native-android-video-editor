@@ -11,7 +11,7 @@ import android.view.View;
 import com.facebook.react.uimanager.ThemedReactContext;
 
 /**
- * Created by lembah8 on 3/30/17.
+ * Created by Rahmat Zulfikri on 3/30/17.
  */
 
 public class VideoImagePreview extends TextureView implements TextureView.SurfaceTextureListener {

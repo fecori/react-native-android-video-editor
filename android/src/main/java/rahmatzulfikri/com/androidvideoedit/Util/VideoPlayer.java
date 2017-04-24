@@ -37,7 +37,7 @@ import rahmatzulfikri.com.androidvideoedit.Effect.VignetteEffect;
 import rahmatzulfikri.com.androidvideoedit.Util.VideoTextureRenderer;
 
 /**
- * Created by lembah8 on 3/21/17.
+ * Created by Rahmat Zulfikri on 3/21/17.
  */
 
 public class VideoPlayer extends TextureView implements TextureView.SurfaceTextureListener, MediaPlayer.OnPreparedListener{
