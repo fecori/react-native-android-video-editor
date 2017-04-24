@@ -1,4 +1,4 @@
-package rahmatzulfikri.com.androidvideoedit;
+package rahmatzulfikri.com.androidvideoedit.Util;
 
 import android.content.Context;
 import android.os.Handler;
@@ -8,11 +8,17 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.media.MediaMetadataRetriever;
 
-import rahmatzulfikri.com.androidvideoedit.Util.CustomRangeSeekBarView;
-import rahmatzulfikri.com.androidvideoedit.Util.OnRangeSeekBarListener;
-import rahmatzulfikri.com.androidvideoedit.Util.VideoTimeline;
 import rahmatzulfikri.com.androidvideoedit.R;
+
+import rahmatzulfikri.com.androidvideoedit.Events.Events;
+import rahmatzulfikri.com.androidvideoedit.Events.EventsEnum;
+
+import com.facebook.react.uimanager.ThemedReactContext;
+import com.facebook.react.uimanager.events.RCTEventEmitter;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.Arguments;
 
 /**
  * Created by lembah8 on 3/20/17.
@@ -48,23 +54,25 @@ public class VideoTrim extends RelativeLayout {
     private int minTrimDuration = 0;
     private int maxTrimDuration = 0;
 
+    private RCTEventEmitter eventEmitter;
+    // private VideoPlayerControl videoPlayerControl;
 
-    private VideoPlayerControl videoPlayerControl;
-
-    public VideoTrim(Context context) {
+    public VideoTrim(ThemedReactContext context) {
         super(context);
         init(context);
     }
 
-    public VideoTrim(Context context, AttributeSet attrs) {
+    public VideoTrim(ThemedReactContext context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    private void init(Context context) {
+    private void init(ThemedReactContext context) {
         LayoutInflater.from(context).inflate(R.layout.video_trim, this, true);
         videoTimeline = (VideoTimeline) findViewById(R.id.videoTimeline);
         seekbar = (CustomRangeSeekBarView) findViewById(R.id.seekBar);
+
+        eventEmitter = context.getJSModule(RCTEventEmitter.class);
 
         setupListener();
     }
@@ -78,8 +86,8 @@ public class VideoTrim extends RelativeLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        layoutWidth = MeasureSpec.getSize(widthMeasureSpec);
-        layoutHeight = MeasureSpec.getSize(heightMeasureSpec);
+        layoutWidth = View.MeasureSpec.getSize(widthMeasureSpec);
+        layoutHeight = View.MeasureSpec.getSize(heightMeasureSpec);
         usedWidth = layoutWidth - getPaddingLeft() - getPaddingRight();
 
         int seekWidth = Math.round((float)(layoutHeight * 70) / 200f);
@@ -128,8 +136,16 @@ public class VideoTrim extends RelativeLayout {
                                             move5 = move5 + (move3 - move4);
                                             videoTimeline.setXPos(-Math.abs(move5));
                                             canvasSeekPos = (move5 * duration) / (videoTimeline.getCanvasWidth()  + Math.abs(videoTimeline.getCanvasWidthStart()));
-                                            videoPlayerControl.setStartPos(rangeSeekPos + canvasSeekPos);
-                                            videoPlayerControl.setEndPos(rangeSeekEndPos+canvasSeekPos);
+                                            // videoPlayerControl.setStartPos(rangeSeekPos + canvasSeekPos);
+                                            // videoPlayerControl.setEndPos(rangeSeekEndPos+canvasSeekPos);
+                                            WritableMap event = Arguments.createMap();
+                                            event.putInt(Events.START_POS, rangeSeekPos + canvasSeekPos);
+
+                                            WritableMap event2 = Arguments.createMap();
+                                            event2.putInt(Events.END_POS, rangeSeekEndPos+canvasSeekPos);
+
+                                            eventEmitter.receiveEvent(getId(), EventsEnum.EVENT_GET_START_POS.toString(), event);
+                                            eventEmitter.receiveEvent(getId(), EventsEnum.EVENT_GET_END_POS.toString(), event2);
                                             move4 = move3;
                                             isScrollRight = false;
                                             isScrollLeft = true;
@@ -156,8 +172,16 @@ public class VideoTrim extends RelativeLayout {
                                                 move5 = move5 + (move3 - move4);
                                                 videoTimeline.setXPos(-Math.abs(move5));
                                                 canvasSeekPos = (move5 * duration) / (videoTimeline.getCanvasWidth()  + Math.abs(videoTimeline.getCanvasWidthStart()));
-                                                videoPlayerControl.setStartPos(rangeSeekPos + canvasSeekPos);
-                                                videoPlayerControl.setEndPos(rangeSeekEndPos+canvasSeekPos);
+                                                // videoPlayerControl.setStartPos(rangeSeekPos + canvasSeekPos);
+                                                // videoPlayerControl.setEndPos(rangeSeekEndPos+canvasSeekPos);
+                                                WritableMap event = Arguments.createMap();
+                                                event.putInt(Events.START_POS, rangeSeekPos + canvasSeekPos);
+
+                                                WritableMap event2 = Arguments.createMap();
+                                                event2.putInt(Events.END_POS, rangeSeekEndPos+canvasSeekPos);
+
+                                                eventEmitter.receiveEvent(getId(), EventsEnum.EVENT_GET_START_POS.toString(), event);
+                                                eventEmitter.receiveEvent(getId(), EventsEnum.EVENT_GET_END_POS.toString(), event2);
                                                 move4 = move3;
                                                 isScrollRight = false;
                                                 isScrollLeft = true;
@@ -180,8 +204,16 @@ public class VideoTrim extends RelativeLayout {
                                                 move5 = move5 - (move3 - move4);
                                                 videoTimeline.setXPos(-Math.abs(move5));
                                                 canvasSeekPos = (move5 * duration) / (videoTimeline.getCanvasWidth()  + Math.abs(videoTimeline.getCanvasWidthStart()));
-                                                videoPlayerControl.setStartPos(rangeSeekPos + canvasSeekPos);
-                                                videoPlayerControl.setEndPos(rangeSeekEndPos+canvasSeekPos);
+                                                // videoPlayerControl.setStartPos(rangeSeekPos + canvasSeekPos);
+                                                // videoPlayerControl.setEndPos(rangeSeekEndPos+canvasSeekPos);
+                                                WritableMap event = Arguments.createMap();
+                                                event.putInt(Events.START_POS, rangeSeekPos + canvasSeekPos);
+
+                                                WritableMap event2 = Arguments.createMap();
+                                                event2.putInt(Events.END_POS, rangeSeekEndPos+canvasSeekPos);
+
+                                                eventEmitter.receiveEvent(getId(), EventsEnum.EVENT_GET_START_POS.toString(), event);
+                                                eventEmitter.receiveEvent(getId(), EventsEnum.EVENT_GET_END_POS.toString(), event2);
                                                 move4 = move3;
                                                 isScrollRight = true;
                                                 isScrollLeft = false;
@@ -219,10 +251,18 @@ public class VideoTrim extends RelativeLayout {
                 if(index == 0){
                     rangeSeekPos = (int)((value/100) * maxDuration);
                     canvasSeekPos = (move5 * duration) / (videoTimeline.getCanvasWidth()  + Math.abs(videoTimeline.getCanvasWidthStart()));
-                    videoPlayerControl.setStartPos(rangeSeekPos + canvasSeekPos);
+                    // videoPlayerControl.setStartPos(rangeSeekPos + canvasSeekPos);
+                    WritableMap event = Arguments.createMap();
+                    event.putInt(Events.START_POS, rangeSeekPos + canvasSeekPos);
+
+                    eventEmitter.receiveEvent(getId(), EventsEnum.EVENT_GET_START_POS.toString(), event);
                 }else{
                     rangeSeekEndPos = (int)(maxDuration * (value/100));
-                    videoPlayerControl.setEndPos(rangeSeekEndPos+canvasSeekPos);
+                    // videoPlayerControl.setEndPos(rangeSeekEndPos+canvasSeekPos);
+                    WritableMap event = Arguments.createMap();
+                    event.putInt(Events.END_POS, rangeSeekEndPos+canvasSeekPos);
+
+                    eventEmitter.receiveEvent(getId(), EventsEnum.EVENT_GET_END_POS.toString(), event);
                 }
             }
 
@@ -241,8 +281,9 @@ public class VideoTrim extends RelativeLayout {
      * @param path
      * Path = File path
      */
-    public void setTimeline(String path){
+    public void setSource(String path){
         videoTimeline.setTrim(path);
+        getVideoInfo(path);
     }
 
     /**
@@ -251,8 +292,7 @@ public class VideoTrim extends RelativeLayout {
      * videoPlayerControl = VideoPlayerControl class, used to handle video player
      */
     public void setPlayer(VideoPlayerControl videoPlayerControl){
-        this.videoPlayerControl = videoPlayerControl;
-        getVideoInfo();
+        // this.videoPlayerControl = videoPlayerControl;
     }
 
     /**
@@ -272,30 +312,30 @@ public class VideoTrim extends RelativeLayout {
     /**
      * Function to get Video Detail, used to get video Duration and Set Video Player Max Duration
      */
-    public void getVideoInfo(){
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (videoPlayerControl.isVideoPlayerControlReady()) {
-                    duration = videoPlayerControl.getDuration();
+     private void getVideoInfo(String source){
+        MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
+        mediaMetadataRetriever.setDataSource(source);
+        duration = Integer.parseInt(mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
 
-                    if (duration / 60000 >= 10) {
-                        maxDuration = 600000;
-                        videoPlayerControl.setEndPos(maxDuration);
-                    } else {
-                        maxDuration = duration;
-                        rangeSeekEndPos = maxDuration;
-                        videoPlayerControl.setEndPos(maxDuration);
-                    }
+        if (duration / 60000 >= 10) {
+            maxDuration = 600000;
+            // videoPlayerControl.setEndPos(maxDuration);
+            WritableMap event = Arguments.createMap();
+            event.putInt(Events.END_POS, maxDuration);
 
-                    Log.e("DEBUG", +duration+" "+maxDuration +" "+rangeSeekEndPos);
-                    seekbar.setRangeMin((minTrimDuration * 100f) / (float)maxDuration);
-                } else {
-                    getVideoInfo();
-                }
-            }
-        }, 1000);
-    }
+            eventEmitter.receiveEvent(getId(), EventsEnum.EVENT_GET_END_POS.toString(), event);
+        } else {
+            maxDuration = duration;
+            rangeSeekEndPos = maxDuration;
+            // videoPlayerControl.setEndPos(maxDuration);
+            WritableMap event = Arguments.createMap();
+            event.putInt(Events.END_POS, maxDuration);
 
+            eventEmitter.receiveEvent(getId(), EventsEnum.EVENT_GET_END_POS.toString(), event);
+        }
+
+        Log.e("DEBUG", " "+duration+" "+maxDuration+" "+((minTrimDuration * 100f) / (float)maxDuration));
+        seekbar.setRangeMin((minTrimDuration * 100f) / (float)maxDuration);
+        mediaMetadataRetriever.release();
+     }
 }

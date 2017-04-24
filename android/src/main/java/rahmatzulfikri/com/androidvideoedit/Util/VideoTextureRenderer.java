@@ -256,26 +256,27 @@ public class VideoTextureRenderer extends TextureSurfaceRenderer implements Surf
     private void adjustViewport() {
         float surfaceAspect = height / (float) width;
         float videoAspect = videoHeight / (float) videoWidth;
-
+        Log.e("DEBUG", "ADJUST VIEWPORT "+videoWidth+" "+videoHeight+" "+width+" "+height);
         if(isCrop){
             if (videoHeight > videoWidth) {
-                System.out.println("vertical");
+                Log.e("DEBUG", "1");
                 int maxHeight = (videoHeight * width) / videoWidth;
                 int yOffset = (maxHeight - width) / 2;
                 GLES20.glViewport(0, -yOffset, width, maxHeight);
             } else {
-                System.out.println("horizontal");
+                Log.e("DEBUG", "2");
                 int maxWidth = (videoWidth * width) / videoHeight;
                 int xOffset = (maxWidth - width) / 2;
                 GLES20.glViewport(-xOffset, 0, maxWidth, width);
             }
         }else{
             if (videoHeight > videoWidth) {
+                Log.e("DEBUG", "3");
                 int maxWidth = (videoWidth * width) / videoHeight;
                 int xOffset = (maxWidth - width) / 2;
                 GLES20.glViewport(-xOffset, 0, maxWidth, width);
             } else {
-                System.out.println("horizontal");
+                Log.e("DEBUG", "4");
                 int maxHeight = (videoHeight * width) / videoWidth;
                 int yOffset = (maxHeight - width) / 2;
                 GLES20.glViewport(0, -yOffset, width, maxHeight);

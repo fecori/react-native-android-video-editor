@@ -44,7 +44,19 @@ import rahmatzulfikri.com.androidvideoedit.VideoEffect.TintEffect;
 import rahmatzulfikri.com.androidvideoedit.VideoEffect.VignetteEffect;
 import rahmatzulfikri.com.androidvideoedit.VideoEffect.interfaces.ShaderInterface;
 
+import rahmatzulfikri.com.androidvideoedit.Events.Events;
+import rahmatzulfikri.com.androidvideoedit.Events.EventsEnum;
+
 import com.facebook.react.uimanager.ThemedReactContext;
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.uimanager.events.RCTEventEmitter;
+import com.facebook.react.bridge.LifecycleEventListener;
+
+import java.lang.ref.WeakReference;
+import android.os.Handler;
+import android.os.Message;
+import android.support.annotation.NonNull;
 
 /**
  * This GLSurfaceView can be used to display video that is being played by media
@@ -54,12 +66,11 @@ import com.facebook.react.uimanager.ThemedReactContext;
  * @author sheraz.khilji
  */
 @SuppressLint("ViewConstructor")
-public class VideoSurfaceView extends GLSurfaceView {
+public class VideoSurfaceView extends GLSurfaceView implements LifecycleEventListener, MediaPlayer.OnCompletionListener {
     private static final String TAG = "VideoSurfaceView";
     private VideoSurfaceView.VideoRender mRenderer;
     private MediaPlayer mMediaPlayer = null;
     private static VideoSurfaceView mSurfaceView;
-    private ThemedReactContext mContext;
     private static ShaderInterface effect;
     private static boolean HORIZONTAL_VIDEO = true;
     private static boolean VERTICAL_VIDEO = false;
@@ -75,48 +86,44 @@ public class VideoSurfaceView extends GLSurfaceView {
     private boolean onMeasured = false;
     private int selectedFilter = 0;
 
+    private RCTEventEmitter eventEmitter;
+    private ThemedReactContext mContext;
+    private String videoUri;
+
+    public final VideoSurfaceView.MessageHandler mMessageHandler = new VideoSurfaceView.MessageHandler(this);
+    private static final int SHOW_PROGRESS = 1;
+
     public VideoSurfaceView(ThemedReactContext context) {
         super(context);
         mContext = context;
+        context.addLifecycleEventListener(this);
+        eventEmitter = context.getJSModule(RCTEventEmitter.class);
         setEGLContextClientVersion(2);
         mRenderer = new VideoSurfaceView.VideoRender(mContext);
         setRenderer(mRenderer);
         mSurfaceView = this;
         mMediaPlayer = new MediaPlayer();
+        mMediaPlayer.setOnCompletionListener(this);
         effect = new NoEffect();
         mRenderer.setMediaPlayer(mMediaPlayer);
-
-//        queueEvent(new Runnable() {
-//            @Override
-//            public void run() {
-//                mRenderer.setMediaPlayer(mMediaPlayer);
-//
-//            }
-//        });
     }
 
     public VideoSurfaceView(ThemedReactContext context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
+        context.addLifecycleEventListener(this);
+        eventEmitter = context.getJSModule(RCTEventEmitter.class);
         setEGLContextClientVersion(2);
         mRenderer = new VideoSurfaceView.VideoRender(mContext);
         setRenderer(mRenderer);
         mSurfaceView = this;
         mMediaPlayer = new MediaPlayer();
+        mMediaPlayer.setOnCompletionListener(this);
         effect = new NoEffect();
         mRenderer.setMediaPlayer(mMediaPlayer);
-
-//        queueEvent(new Runnable() {
-//            @Override
-//            public void run() {
-//                mRenderer.setMediaPlayer(mMediaPlayer);
-//            }
-//        });
     }
 
     public void setDimension() {
-//        Log.e("DEBUG", ""+videoHeight+" "+videoWidth+" "+layoutHeight+" "+layoutWidth+" "+rotation);
-
         if(isSquareCenter) {
             if (rotation == 90 || rotation == 360) {
                 mRenderer.setDimension(videoWidth, videoHeight, layoutHeight, layoutWidth, VERTICAL_VIDEO);
@@ -182,6 +189,7 @@ public class VideoSurfaceView extends GLSurfaceView {
     }
 
     public void setSource(String uri){
+        videoUri = uri;
         try {
             mMediaPlayer.setDataSource(uri);
             MediaMetadataRetriever retriever = new MediaMetadataRetriever();
@@ -193,6 +201,9 @@ public class VideoSurfaceView extends GLSurfaceView {
                 setDimension();
             }
             videoDuration = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
+            WritableMap event = Arguments.createMap();
+            event.putInt(Events.VIDEO_DURATION, videoDuration);
+            eventEmitter.receiveEvent(getId(), EventsEnum.EVENT_GET_VIDEO_DURATION.toString(), event);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -364,12 +375,14 @@ public class VideoSurfaceView extends GLSurfaceView {
     public void pauseVideo(){
         if(mMediaPlayer.isPlaying()){
             mMediaPlayer.pause();
+            mMessageHandler.removeMessages(SHOW_PROGRESS);
         }
     }
 
     public void playVideo(){
         if(!mMediaPlayer.isPlaying()){
             mMediaPlayer.start();
+            mMessageHandler.sendEmptyMessage(SHOW_PROGRESS);
         }
     }
 
@@ -383,8 +396,12 @@ public class VideoSurfaceView extends GLSurfaceView {
     }
 
     public void seekTo(int seek){
-        mMediaPlayer.seekTo(seek);
-//        mRenderer.seekTo(seek);
+        Log.e("DEBUG", "MASUK SEEK "+seek+" "+mRenderer.playerReady);
+        if(mRenderer.playerReady){
+            mMediaPlayer.seekTo(seek);
+        }else{
+            mRenderer.seekPos = seek;
+        }
     }
 
     public int getVideoDuration(){
@@ -406,34 +423,85 @@ public class VideoSurfaceView extends GLSurfaceView {
         return 0;
     }
 
+    public void notifyProgressUpdate(boolean status){
+        Log.e("DEBUG", "UPDATE PROGRESS");
+        WritableMap event = Arguments.createMap();
+        event.putInt(Events.VIDEO_PROGRESS, mMediaPlayer.getCurrentPosition());
+        eventEmitter.receiveEvent(getId(), EventsEnum.EVENT_GET_VIDEO_PROGRESS.toString(), event);
+    }
+
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onCompletion(MediaPlayer mediaPlayer) {
+        Log.e("DEBUG", "MEDIA PLAYER COMPLETE");
+        WritableMap event = Arguments.createMap();
+        event.putBoolean(Events.VIDEO_COMPLETED, true);
+        eventEmitter.receiveEvent(getId(), EventsEnum.EVENT_GET_VIDEO_COMPLETED.toString(), event);
+    }
+
+    @Override
+    public void onHostResume() {
+        Log.e("DEBUG", "RESUME");
+        
         if(onPaused){
-            Log.e("DEBUG", "MASUK RESUME");
-            isPaused = false;
-            mRenderer.setMediaPlayer(mMediaPlayer);
-//            queueEvent(new Runnable() {
-//                @Override
-//                public void run() {
-//                    mRenderer.setMediaPlayer(mMediaPlayer);
-//                }
-//            });
+            try{
+                if(mMediaPlayer == null){
+                    Log.e("DEBUG", "MASUK NULL");
+                    mMediaPlayer = new MediaPlayer();
+                    mMediaPlayer.setDataSource(videoUri);
+                    mRenderer.setMediaPlayer(mMediaPlayer);
+                }else{
+                    if(!mMediaPlayer.isPlaying()){
+                        mMediaPlayer.start();
+                    }
+                }
+            }catch(Exception e){
+                Log.e("DEBUG", "ERROR = "+e.toString());
+            }
+            onPaused = false;   
         }
     }
 
     @Override
-    public void onPause(){
-        super.onPause();
-        Log.e("DEBUG","MASUK PAUSE");
+    public void onHostPause() {
+        Log.e("DEBUG", "PAUSE");
         if(mMediaPlayer.isPlaying()){
             mMediaPlayer.pause();
         }
-//        mMediaPlayer.setOnErrorListener(null);
-//        mMediaPlayer.setSurface(null);
-        mMediaPlayer.stop();
+        // mMediaPlayer.release();
+        // mMediaPlayer = null;
         onPaused = true;
     }
+
+    @Override
+    public void onHostDestroy() {
+        Log.e("DEBUG", "DESTROY");
+        // if(mMediaPlayer.isPlaying()){
+        //     mMediaPlayer.pause();
+        // }
+        // mMediaPlayer.stop();
+        // mMediaPlayer.realease();
+    }
+
+    // @Override
+    // public void onResume() {
+    //     super.onResume();
+    //     if(onPaused){
+    //         Log.e("DEBUG", "MASUK RESUME");
+    //         isPaused = false;
+    //         mRenderer.setMediaPlayer(mMediaPlayer);
+    //     }
+    // }
+
+    // @Override
+    // public void onPause(){
+    //     super.onPause();
+    //     Log.e("DEBUG","MASUK PAUSE");
+    //     if(mMediaPlayer.isPlaying()){
+    //         mMediaPlayer.pause();
+    //     }
+    //     mMediaPlayer.stop();
+    //     onPaused = true;
+    // }
 
 
 
@@ -488,7 +556,8 @@ public class VideoSurfaceView extends GLSurfaceView {
         private boolean isAutoPlay = false;
         private Surface surface;
         private int currentTime = 0;
-        private boolean playerReady = false;
+        public boolean playerReady = false;
+        public int seekPos = 0;
 
         public VideoRender(ThemedReactContext context) {
             mTriangleVertices = ByteBuffer.allocateDirect(mTriangleVerticesData.length * FLOAT_SIZE_BYTES).order(ByteOrder.nativeOrder()).asFloatBuffer();
@@ -729,7 +798,16 @@ public class VideoSurfaceView extends GLSurfaceView {
                 if(isAutoPlay){
                     mMediaPlayer.start();
                 }
+                if(seekPos > 0){
+                    mMediaPlayer.seekTo(seekPos);
+                }
+
+                Log.e("DEBUG", "SEEK POS "+ seekPos);
                 playerReady = true;
+
+                WritableMap event = Arguments.createMap();
+                event.putBoolean(Events.VIDEO_READY, true);
+                mSurfaceView.eventEmitter.receiveEvent(mSurfaceView.getId(), EventsEnum.EVENT_GET_VIDEO_READY.toString(), event);
             } catch (IOException t) {
                 Log.e(TAG, "media player prepare failed");
             }
@@ -746,17 +824,18 @@ public class VideoSurfaceView extends GLSurfaceView {
             return currentTime;
         }
 
-        public void seekTo(final int seek){
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (playerReady == true) {
-                       mMediaPlayer.seekTo(seek);
-                    }
-                }
-            }, 1000);
-        }
+        // public void seekTo(final int seek){
+            
+        //     // Handler handler = new Handler();
+        //     // handler.postDelayed(new Runnable() {
+        //     //     @Override
+        //     //     public void run() {
+        //     //         if (playerReady == true) {
+        //     //            mMediaPlayer.seekTo(seek);
+        //     //         }
+        //     //     }
+        //     // }, 10);
+        // }
 
         public void setAutoPlay(boolean isAutoPlay){
             this.isAutoPlay = isAutoPlay;
@@ -766,5 +845,28 @@ public class VideoSurfaceView extends GLSurfaceView {
             this.updateFilter = isUpdateFilter;
         }
     } // End of class VideoRender.
+
+    public static class MessageHandler extends Handler {
+
+        @NonNull
+        private final WeakReference<VideoSurfaceView> mView;
+
+        MessageHandler(VideoSurfaceView view) {
+            mView = new WeakReference<>(view);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            VideoSurfaceView view = mView.get();
+            if (view == null || view.mMediaPlayer == null) {
+                return;
+            }
+
+            view.notifyProgressUpdate(true);
+            if (view.mMediaPlayer.isPlaying()) {
+                sendEmptyMessageDelayed(0, 1000);
+            }
+        }
+    }
 
 } // End of class VideoSurfaceView.

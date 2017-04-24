@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <rahmatzulfikri.com.androidvideoedit.VideoPlayer
+    <view
+        class="rahmatzulfikri.com.androidvideoedit.Util.VideoPlayer"
         android:id="@+id/videoPlayer"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

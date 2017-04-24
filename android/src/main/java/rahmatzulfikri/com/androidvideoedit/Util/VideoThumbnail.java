@@ -1,4 +1,4 @@
-package rahmatzulfikri.com.androidvideoedit;
+package rahmatzulfikri.com.androidvideoedit.Util;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -13,14 +13,22 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.RelativeLayout;
 
-import rahmatzulfikri.com.androidvideoedit.Util.VideoTimeline;
 import rahmatzulfikri.com.androidvideoedit.R;
+import rahmatzulfikri.com.androidvideoedit.Util.VideoPlayer;
+import rahmatzulfikri.com.androidvideoedit.Events.Events;
+import rahmatzulfikri.com.androidvideoedit.Events.EventsEnum;
+
+import com.facebook.react.uimanager.ThemedReactContext;
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.uimanager.events.RCTEventEmitter;
+import com.facebook.react.bridge.LifecycleEventListener;
 
 /**
  * Created by lembah8 on 3/20/17.
  */
 
-public class VideoThumbnail extends RelativeLayout implements OnTouchListener, TextureView.SurfaceTextureListener{
+public class VideoThumbnail extends RelativeLayout implements OnTouchListener{
 
     private static final String TAG = VideoThumbnail.class.getSimpleName();
     private VideoTimeline videoTimeline;
@@ -42,33 +50,32 @@ public class VideoThumbnail extends RelativeLayout implements OnTouchListener, T
     private String uri;
     private int filter;
 
-    private Context context;
+    private RCTEventEmitter eventEmitter;
 
-    private VideoPlayer videoPlayerView;
-
-    public VideoThumbnail(Context context) {
+    public VideoThumbnail(ThemedReactContext context) {
         super(context);
-        this.context = context;
-        this.setOnTouchListener(this);
         init(context);
     }
 
-    public VideoThumbnail(Context context, AttributeSet attrs) {
+    public VideoThumbnail(ThemedReactContext context, AttributeSet attrs) {
         super(context, attrs);
-        this.context = context;
-        this.setOnTouchListener(this);
         init(context);
     }
 
-    private void init(Context context){
+    public VideoThumbnail(ThemedReactContext context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        init(context);
+    }
+
+    private void init(ThemedReactContext context){
+        this.setOnTouchListener(this);
+        eventEmitter = context.getJSModule(RCTEventEmitter.class);
         LayoutInflater.from(context).inflate(R.layout.video_thumbnail, this);
         videoTimeline = (VideoTimeline) findViewById(R.id.videoTimeline);
         videoPlayerSeek = (VideoPlayer) findViewById(R.id.videoPlayer);
         overlay = (View) findViewById(R.id.overlay);
-
         overlay.setBackgroundColor(Color.argb(125, 1, 1, 1));
-
-        Log.e("DEBUG", "MASUK INIT "+layoutHeight);
+        videoPlayerSeek.setSeekPlayer(true);
         setLayout();
     }
 
@@ -78,6 +85,7 @@ public class VideoThumbnail extends RelativeLayout implements OnTouchListener, T
             @Override
             public void run() {
                 if (layoutHeight > 0) {
+                    Log.e("DEBUG", "INI" + layoutHeight + " "+layoutWidth);
                     videoPlayerSeek.setLayoutParams(new LayoutParams(layoutHeight,layoutHeight));
                 } else {
                     setLayout();
@@ -104,6 +112,7 @@ public class VideoThumbnail extends RelativeLayout implements OnTouchListener, T
 
 
     public void setXpos(int xpos){
+        Log.e("DEBUG", "INI "+xpos);
         if(this.xpos != xpos){
             this.xpos = xpos;
         }
@@ -114,7 +123,10 @@ public class VideoThumbnail extends RelativeLayout implements OnTouchListener, T
                 if(seekDur >= 0 && seekDur <= videoPlayerSeek.getDuration()){
                     videoPlayerSeek.setX(xpos - (layoutHeight/2));
                     videoPlayerSeek.seekTo(seekDur);
-                    videoPlayerView.seekTo(seekDur);
+                    WritableMap event = Arguments.createMap();
+                    event.putInt(Events.SEEK_POS, seekDur);
+                    eventEmitter.receiveEvent(getId(), EventsEnum.EVENT_GET_SEEK_POS.toString(), event);
+                    // videoPlayerView.seekTo(seekDur);
                 }
             }
         }else{
@@ -124,23 +136,22 @@ public class VideoThumbnail extends RelativeLayout implements OnTouchListener, T
                 if(seekDur >= 0 && seekDur <= duration){
                     videoPlayerSeek.setX(xpos - (layoutHeight/2));
                     videoPlayerSeek.seekTo(seekDur + startDur);
-                    videoPlayerView.seekTo(seekDur + startDur);
+                    WritableMap event = Arguments.createMap();
+                    event.putInt(Events.SEEK_POS, seekDur);
+                    eventEmitter.receiveEvent(getId(), EventsEnum.EVENT_GET_SEEK_POS.toString(), event);
+                    // videoPlayerView.seekTo(seekDur + startDur);
                 }
             }
         }
 
     }
 
-    public void setTimeline(String uri, int startDur, int endDur){
-        this.uri = uri;
+    public void setStartDur(int startDur){
         this.startDur = startDur;
-        this.endDur = endDur;
-        setupTimeline();
     }
 
-    private void setupTimeline(){
-        videoTimeline.setThumbnail(uri, startDur, endDur);
-        videoPlayerSeek.seekTo(startDur);
+    public void setEndDur(int endDur){
+        this.endDur = endDur;
     }
 
     public void setVideoSeek(String path, int filter){
@@ -155,6 +166,19 @@ public class VideoThumbnail extends RelativeLayout implements OnTouchListener, T
         videoPlayerSeek.setFilter(filter);
     }
 
+    public void setSource(String path){
+        this.path = path;
+        videoPlayerSeek.setSource(path);
+        videoPlayerSeek.setCrop(true);
+
+        videoTimeline.setThumbnail(path, startDur, endDur);
+        videoPlayerSeek.seekTo(startDur);
+    }
+
+    public void setFilter(int filter){
+        this.filter = filter;
+        videoPlayerSeek.setFilter(filter);
+    }
 
     public void onResume(){
         if(videoPlayerSeek.isAvailable()){
@@ -162,10 +186,10 @@ public class VideoThumbnail extends RelativeLayout implements OnTouchListener, T
         }
     }
 
-    public void setPlayer(VideoPlayer videoPlayer){
-        this.videoPlayerView = videoPlayer;
-        videoPlayerView.seekTo(startDur);
-    }
+    // public void setPlayer(VideoPlayer videoPlayer){
+    //     this.videoPlayerView = videoPlayer;
+    //     videoPlayerView.seekTo(startDur);
+    // }
 
     public int getSeek(){
         return (seekDur + startDur);
@@ -181,31 +205,12 @@ public class VideoThumbnail extends RelativeLayout implements OnTouchListener, T
             case MotionEvent.ACTION_DOWN:
                 break;
             case MotionEvent.ACTION_MOVE:
-                setXpos((int)event.getX() - (layoutHeight/2));
+                Log.e("DEBUG", "INI "+event.getX());
+                setXpos((int)event.getX());
                 break;
             case MotionEvent.ACTION_CANCEL:
                 break;
         }
         return true;
-    }
-
-    @Override
-    public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i1) {
-
-    }
-
-    @Override
-    public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i, int i1) {
-
-    }
-
-    @Override
-    public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
-        return false;
-    }
-
-    @Override
-    public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
-
     }
 }

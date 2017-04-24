@@ -14,7 +14,6 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-import rahmatzulfikri.com.androidvideoedit.Effect.AutoFixEffect;
 import rahmatzulfikri.com.androidvideoedit.Effect.BlackAndWhiteEffect;
 import rahmatzulfikri.com.androidvideoedit.Effect.BrightnessEffect;
 import rahmatzulfikri.com.androidvideoedit.Effect.ContrastEffect;
@@ -23,7 +22,6 @@ import rahmatzulfikri.com.androidvideoedit.Effect.DocumentaryEffect;
 import rahmatzulfikri.com.androidvideoedit.Effect.DuotoneEffect;
 import rahmatzulfikri.com.androidvideoedit.Effect.FillLightEffect;
 import rahmatzulfikri.com.androidvideoedit.Effect.GammaEffect;
-import rahmatzulfikri.com.androidvideoedit.Effect.GrainEffect;
 import rahmatzulfikri.com.androidvideoedit.Effect.GreyScaleEffect;
 import rahmatzulfikri.com.androidvideoedit.Effect.HueEffect;
 import rahmatzulfikri.com.androidvideoedit.Effect.Interfaces.ShaderInterface;
@@ -115,66 +113,60 @@ public class ImageTextureRenderer extends TextureSurfaceRenderer implements Surf
                 fragmentShaderCode = new NoEffect();
                 break;
             case 1:
-                fragmentShaderCode = new AutoFixEffect(0.3f);
-                break;
-            case 2:
                 fragmentShaderCode = new BlackAndWhiteEffect();
                 break;
-            case 3:
+            case 2:
                 fragmentShaderCode = new BrightnessEffect(0.5f);
                 break;
-            case 4:
+            case 3:
                 fragmentShaderCode = new ContrastEffect(0.5f);
                 break;
-            case 5:
+            case 4:
                 fragmentShaderCode = new CrossProcessEffect();
                 break;
-            case 6:
+            case 5:
                 fragmentShaderCode = new DocumentaryEffect(photoWidth, photoHeight);
                 break;
-            case 7:
+            case 6:
                 fragmentShaderCode = new DuotoneEffect(Color.CYAN, Color.BLUE);
                 break;
-            case 8:
+            case 7:
                 fragmentShaderCode = new FillLightEffect(0.5f);
                 break;
-            case 9:
+            case 8:
                 fragmentShaderCode = new GammaEffect(1.0f);
                 break;
-            case 10:
-                fragmentShaderCode = new GrainEffect(0.5f, photoWidth, photoHeight);
-                break;
-            case 11:
+            case 9:
                 fragmentShaderCode = new GreyScaleEffect();
                 break;
-            case 12:
+            case 10:
                 fragmentShaderCode = new HueEffect(90f);
                 break;
-            case 13:
+            case 11:
                 fragmentShaderCode = new InvertColorsEffect();
                 break;
-            case 14:
+            case 12:
                 fragmentShaderCode = new LamoishEffect(photoWidth, photoHeight);
                 break;
-            case 15:
+            case 13:
                 fragmentShaderCode = new PosterizeEffect();
                 break;
-            case 16:
+            case 14:
                 fragmentShaderCode = new SaturationEffect(0.1f);
                 break;
-            case 17:
+            case 15:
                 fragmentShaderCode = new SepiaEffect();
                 break;
-            case 18:
+            case 16:
                 fragmentShaderCode = new SharpnessEffect(0.5f, photoWidth, photoHeight);
                 break;
-            case 19:
+            case 17:
                 fragmentShaderCode = new TemperatureEffect(0.5f);
                 break;
-            case 20:
+            case 18:
                 fragmentShaderCode = new TintEffect(Color.BLUE);
                 break;
-            case 21:
+            case 19:
                 fragmentShaderCode = new VignetteEffect(0.5f, photoWidth, photoHeight);
                 break;
             default:

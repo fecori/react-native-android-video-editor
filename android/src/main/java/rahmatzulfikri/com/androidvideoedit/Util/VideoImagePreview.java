@@ -1,4 +1,4 @@
-package rahmatzulfikri.com.androidvideoedit;
+package rahmatzulfikri.com.androidvideoedit.Util;
 
 import android.content.Context;
 import android.graphics.SurfaceTexture;
@@ -6,8 +6,9 @@ import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.TextureView;
+import android.view.View;
 
-import rahmatzulfikri.com.androidvideoedit.Util.ImageTextureRenderer;
+import com.facebook.react.uimanager.ThemedReactContext;
 
 /**
  * Created by lembah8 on 3/30/17.
@@ -15,7 +16,7 @@ import rahmatzulfikri.com.androidvideoedit.Util.ImageTextureRenderer;
 
 public class VideoImagePreview extends TextureView implements TextureView.SurfaceTextureListener {
 
-    private Context mContext;
+    private ThemedReactContext mContext;
     private int surfaceWidth;
     private int surfaceHeight;
     private boolean isCrop = false;
@@ -27,13 +28,13 @@ public class VideoImagePreview extends TextureView implements TextureView.Surfac
     private int position;
     private int filterCode;
 
-    public VideoImagePreview(Context context) {
+    public VideoImagePreview(ThemedReactContext context) {
         super(context);
         mContext = context;
         this.setSurfaceTextureListener(this);
     }
 
-    public VideoImagePreview(Context context, AttributeSet attrs) {
+    public VideoImagePreview(ThemedReactContext context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
         this.setSurfaceTextureListener(this);
@@ -59,17 +60,26 @@ public class VideoImagePreview extends TextureView implements TextureView.Surfac
         mRenderer = new ImageTextureRenderer(mContext, surface, surfaceWidth, surfaceWidth , path, position, filterCode, isCrop);
     }
 
-    public void setImage(String path, int position, int filterCode, boolean isCrop){
+    public void setSource(String path){
         this.path = path;
+    }
+
+    public void setPosition(int position){
         this.position = position;
+    }
+
+    public void setFilter(int filterCode){
         this.filterCode = filterCode;
+    }
+
+    public void setCrop(boolean isCrop){
         this.isCrop = isCrop;
     }
 
     @Override
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        surfaceHeight = MeasureSpec.getSize(heightMeasureSpec);
-        surfaceWidth = MeasureSpec.getSize(widthMeasureSpec);
+        surfaceHeight = View.MeasureSpec.getSize(heightMeasureSpec);
+        surfaceWidth = View.MeasureSpec.getSize(widthMeasureSpec);
         this.setMeasuredDimension(surfaceWidth, surfaceWidth);
     }
 
