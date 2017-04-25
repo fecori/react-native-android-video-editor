@@ -130,7 +130,7 @@ public class VideoTrim extends RelativeLayout {
                                             move4 = 0;
                                         }
                                         move2 = (int)event.getX();
-                                        if(Math.abs((move1 - move2) - move4) < Math.abs(videoTimeline.getCanvasWidth() - usedWidth)){
+                                        if(Math.abs((move1 - move2) - move4) < (videoTimeline.getCanvasWidth() - usedWidth)){
                                             move3 = move1 - move2;
                                             move5 = move5 + (move3 - move4);
                                             videoTimeline.setXPos(-Math.abs(move5));
@@ -166,7 +166,7 @@ public class VideoTrim extends RelativeLayout {
                                                 move4 = 0;
                                             }
                                             move2 = (int)event.getX();
-                                            if(Math.abs((move1 - move2) - move4) < Math.abs(videoTimeline.getCanvasWidth() - usedWidth)){
+                                            if(Math.abs((move1 - move2) - move4) < (videoTimeline.getCanvasWidth() - usedWidth)){
                                                 move3 = move1 - move2;
                                                 move5 = move5 + (move3 - move4);
                                                 videoTimeline.setXPos(-Math.abs(move5));
