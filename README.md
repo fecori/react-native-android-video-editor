@@ -57,18 +57,20 @@ then linking component:
     
     render(){
       return(
-        <VideoPlayerControl
-          ref={ref => this.videoPlayerControlRef = ref}
-          src={this.state.src}
-          startPos = {10000}
-          endPos = {60000}
-          onCrop = {(e) => this._onCropListener(e)}
-         />
-         <VideoTrimmer
-          src={this.state.src}
-          minDuration={60000}
-          onChange = {(e) => this._onChangeTrim(e)}
-        />
+        <View>
+          <VideoPlayerControl
+            ref={ref => this.videoPlayerControlRef = ref}
+            src={this.state.src}
+            startPos = {10000}
+            endPos = {60000}
+            onCrop = {(e) => this._onCropListener(e)}
+           />
+           <VideoTrimmer
+            src={this.state.src}
+            minDuration={60000}
+            onChange = {(e) => this._onChangeTrim(e)}
+          />
+         </View>
       );
     }
   }
@@ -98,68 +100,70 @@ then linking component:
     
     render(){
       return(
-        <VideoPlayerControl
-          ref={ref => this.videoPlayerControlRef = ref}
-          src={this.state.src}
-          startPos = {10000}
-          endPos = {60000}
-          onCrop = {(e) => this._onCropListener(e)}
-         />
-        <ScrollView horizontal = {true}>
-            <TouchableWithoutFeedback onPress={() => this._onFilter(0)}>
-              <VideoImagePreview
-                src={this.state.src}
-                pos={10000}
-                crop={true}
-                filter={0}
-              />
-            </TouchableWithoutFeedback>
+        <View>
+          <VideoPlayerControl
+            ref={ref => this.videoPlayerControlRef = ref}
+            src={this.state.src}
+            startPos = {10000}
+            endPos = {60000}
+            onCrop = {(e) => this._onCropListener(e)}
+           />
+          <ScrollView horizontal = {true}>
+              <TouchableWithoutFeedback onPress={() => this._onFilter(0)}>
+                <VideoImagePreview
+                  src={this.state.src}
+                  pos={10000}
+                  crop={true}
+                  filter={0}
+                />
+              </TouchableWithoutFeedback>
 
-            <TouchableWithoutFeedback onPress={() => this._onFilter(1)}>
-              <VideoImagePreview
-                src={this.state.src}
-                pos={10000}
-                crop={true}
-                filter={1}
-              />
-            </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback onPress={() => this._onFilter(1)}>
+                <VideoImagePreview
+                  src={this.state.src}
+                  pos={10000}
+                  crop={true}
+                  filter={1}
+                />
+              </TouchableWithoutFeedback>
 
-            <TouchableWithoutFeedback onPress={() => this._onFilter(2)}>
-              <VideoImagePreview
-                src={this.state.src}
-                pos={10000}
-                crop={true}
-                filter={2}
-              />
-            </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback onPress={() => this._onFilter(2)}>
+                <VideoImagePreview
+                  src={this.state.src}
+                  pos={10000}
+                  crop={true}
+                  filter={2}
+                />
+              </TouchableWithoutFeedback>
 
-            <TouchableWithoutFeedback onPress={() => this._onFilter(3)}>
-              <VideoImagePreview
-                src={this.state.src}
-                pos={10000}
-                crop={true}
-                filter={3}
-              />
-            </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback onPress={() => this._onFilter(3)}>
+                <VideoImagePreview
+                  src={this.state.src}
+                  pos={10000}
+                  crop={true}
+                  filter={3}
+                />
+              </TouchableWithoutFeedback>
 
-            <TouchableWithoutFeedback onPress={() => this._onFilter(4)}>
-              <VideoImagePreview
-                src={this.state.src}
-                pos={10000}
-                crop={true}
-                filter={4}
-              />
-            </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback onPress={() => this._onFilter(4)}>
+                <VideoImagePreview
+                  src={this.state.src}
+                  pos={10000}
+                  crop={true}
+                  filter={4}
+                />
+              </TouchableWithoutFeedback>
 
-            <TouchableWithoutFeedback onPress={() => this._onFilter(5)}>
-              <VideoImagePreview
-                src={this.state.src}
-                pos={10000}
-                crop={true}
-                filter={5}
-              />
-            </TouchableWithoutFeedback>
-        </ScrollView
+              <TouchableWithoutFeedback onPress={() => this._onFilter(5)}>
+                <VideoImagePreview
+                  src={this.state.src}
+                  pos={10000}
+                  crop={true}
+                  filter={5}
+                />
+              </TouchableWithoutFeedback>
+          </ScrollView
+         </View>
       );
     }
   }
@@ -187,6 +191,7 @@ import {VideoPlayer, Video} from 'react-native-android-video-editor'
     
     render(){
       return(
+        <View>
          <VideoPlayer
             ref={ref => this.videoPlayerRef = ref}
             src={this.state.src}
@@ -201,6 +206,7 @@ import {VideoPlayer, Video} from 'react-native-android-video-editor'
             endDur = {this.state.endPos}
             onSeekPos = {(e) => this._onSeekPos(e)}
         />
+       </View>
       );
     }
   }
