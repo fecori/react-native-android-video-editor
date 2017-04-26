@@ -36,7 +36,7 @@ then linking component:
 1. Video Trimmer
 
 ```
-  import {VideoPlayerControl, VideoTrimmer}
+  import {VideoPlayerControl, VideoTrimmer} from 'react-native-android-video-editor'
   
   ...
   export default class trimViewo extends Components{
@@ -77,7 +77,7 @@ then linking component:
 2. Video Filter
 
 ```
-  import {VideoPlayerControl, VideoImagePreview}
+  import {VideoPlayerControl, VideoImagePreview} from 'react-native-android-video-editor'
   
   ...
   export default class trimViewo extends Components{
@@ -168,7 +168,7 @@ then linking component:
 3. Video Thumbnail
 
 ```
-import {VideoPlayer, Video}
+import {VideoPlayer, Video} from 'react-native-android-video-editor'
   
   ...
   export default class trimViewo extends Components{
