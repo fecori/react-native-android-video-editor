@@ -96,14 +96,14 @@ public class VideoPlayer extends TextureView implements TextureView.SurfaceTextu
             @Override
             public void run() {
                 if (surface != null) {
-                    Log.e("DEBUG", "MASUK SINI");
+//                     Log.e("DEBUG", "MASUK SINI");
                     try {
                         mMediaPlayer.setDataSource(videoPath);
                         mRenderer.setMediaPlayer(mMediaPlayer);
                         mMediaPlayer.setScreenOnWhilePlaying(true);
                         mMediaPlayer.setSurface(new Surface(surface));
                         mMediaPlayer.prepare();
-                        Log.e("DEBUG", surfaceHeight + " " + surfaceWidth +" "+mMediaPlayer.getVideoWidth()+" "+ mMediaPlayer.getVideoHeight());
+//                         Log.e("DEBUG", surfaceHeight + " " + surfaceWidth +" "+mMediaPlayer.getVideoWidth()+" "+ mMediaPlayer.getVideoHeight());
                         mRenderer.setDimension(mMediaPlayer.getVideoWidth(), mMediaPlayer.getVideoHeight());
                         mRenderer.setShader(fragmentShaderCode);
                         mRenderer.setCrop(isCrop);
@@ -121,11 +121,11 @@ public class VideoPlayer extends TextureView implements TextureView.SurfaceTextu
                         mediaPlayerReady = true;
 
                     } catch (IOException e) {
-                        Log.e("DEBUG", e.toString());
+//                         Log.e("DEBUG", e.toString());
                         throw new RuntimeException("Could not open input video!");
                     }
                 } else {
-                    Log.e("DEBUG", "MASUK SANA");
+//                     Log.e("DEBUG", "MASUK SANA");
                     surface =  mRenderer.getVideoTexture();
                     getSurface();
                 }
@@ -332,7 +332,7 @@ public class VideoPlayer extends TextureView implements TextureView.SurfaceTextu
 
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-        Log.e("DEBUG", "surface avalilable");
+//         Log.e("DEBUG", "surface avalilable");
 
         isTextureAvailable = true;
         surfaceTexture = surface;
