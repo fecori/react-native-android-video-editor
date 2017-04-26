@@ -46,10 +46,10 @@ public class VideoImagePreview extends TextureView implements TextureView.Surfac
             @Override
             public void run() {
                 if (path != null) {
-                    Log.e("DEBUG", "IMAGE MASUK SINI");
+//                     Log.e("DEBUG", "IMAGE MASUK SINI");
                     setup(surface);
                 } else {
-                    Log.e("DEBUG", "IMAGE MASUK SANA");
+//                     Log.e("DEBUG", "IMAGE MASUK SANA");
                     handleSetup(surface);
                 }
             }
