@@ -324,7 +324,7 @@ public class VideoTrim extends RelativeLayout {
             eventEmitter.receiveEvent(getId(), EventsEnum.EVENT_GET_END_POS.toString(), event);
         }
 
-        Log.e("DEBUG", " "+duration+" "+maxDuration+" "+((minTrimDuration * 100f) / (float)maxDuration));
+//         Log.e("DEBUG", " "+duration+" "+maxDuration+" "+((minTrimDuration * 100f) / (float)maxDuration));
         seekbar.setRangeMin((minTrimDuration * 100f) / (float)maxDuration);
         mediaMetadataRetriever.release();
      }
