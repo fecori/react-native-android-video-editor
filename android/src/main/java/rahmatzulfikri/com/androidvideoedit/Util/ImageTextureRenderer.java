@@ -101,7 +101,7 @@ public class ImageTextureRenderer extends TextureSurfaceRenderer implements Surf
 
 //    public void setImage(){
     public void setImage(String path, int position, int filterCode){
-        Log.e("DEBUG", "MASUK IMAGE");
+//         Log.e("DEBUG", "MASUK IMAGE");
         MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
         mediaMetadataRetriever.setDataSource(path);
         photo = mediaMetadataRetriever.getFrameAtTime(position * 1000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
@@ -270,7 +270,7 @@ public class ImageTextureRenderer extends TextureSurfaceRenderer implements Surf
 
 
     private void setup(){
-        Log.e("DEBUG", "MASUK SETUP");
+//         Log.e("DEBUG", "MASUK SETUP");
 
         final Thread thread = new Thread(new Runnable() {
             @Override
