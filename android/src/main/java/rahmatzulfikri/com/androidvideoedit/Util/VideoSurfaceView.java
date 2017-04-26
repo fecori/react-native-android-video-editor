@@ -397,7 +397,7 @@ public class VideoSurfaceView extends GLSurfaceView implements LifecycleEventLis
     }
 
     public void seekTo(int seek){
-        Log.e("DEBUG", "MASUK SEEK "+seek+" "+mRenderer.playerReady);
+//         Log.e("DEBUG", "MASUK SEEK "+seek+" "+mRenderer.playerReady);
         if(mRenderer.playerReady){
             mMediaPlayer.seekTo(seek);
         }else{
@@ -425,7 +425,7 @@ public class VideoSurfaceView extends GLSurfaceView implements LifecycleEventLis
     }
 
     public void notifyProgressUpdate(boolean status){
-        Log.e("DEBUG", "UPDATE PROGRESS");
+//         Log.e("DEBUG", "UPDATE PROGRESS");
         WritableMap event = Arguments.createMap();
         event.putInt(Events.VIDEO_PROGRESS, mMediaPlayer.getCurrentPosition());
         eventEmitter.receiveEvent(getId(), EventsEnum.EVENT_GET_VIDEO_PROGRESS.toString(), event);
@@ -433,7 +433,7 @@ public class VideoSurfaceView extends GLSurfaceView implements LifecycleEventLis
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
-        Log.e("DEBUG", "MEDIA PLAYER COMPLETE");
+//         Log.e("DEBUG", "MEDIA PLAYER COMPLETE");
         WritableMap event = Arguments.createMap();
         event.putBoolean(Events.VIDEO_COMPLETED, true);
         eventEmitter.receiveEvent(getId(), EventsEnum.EVENT_GET_VIDEO_COMPLETED.toString(), event);
@@ -441,12 +441,12 @@ public class VideoSurfaceView extends GLSurfaceView implements LifecycleEventLis
 
     @Override
     public void onHostResume() {
-        Log.e("DEBUG", "RESUME");
+//         Log.e("DEBUG", "RESUME");
 
         if(onPaused){
             try{
                 if(mMediaPlayer == null){
-                    Log.e("DEBUG", "MASUK NULL");
+//                     Log.e("DEBUG", "MASUK NULL");
                     mMediaPlayer = new MediaPlayer();
                     mMediaPlayer.setDataSource(videoUri);
                     mRenderer.setMediaPlayer(mMediaPlayer);
@@ -456,7 +456,7 @@ public class VideoSurfaceView extends GLSurfaceView implements LifecycleEventLis
                     }
                 }
             }catch(Exception e){
-                Log.e("DEBUG", "ERROR = "+e.toString());
+//                 Log.e("DEBUG", "ERROR = "+e.toString());
             }
             onPaused = false;
         }
@@ -464,7 +464,7 @@ public class VideoSurfaceView extends GLSurfaceView implements LifecycleEventLis
 
     @Override
     public void onHostPause() {
-        Log.e("DEBUG", "PAUSE");
+//         Log.e("DEBUG", "PAUSE");
         if(mMediaPlayer.isPlaying()){
             mMediaPlayer.pause();
         }
@@ -475,7 +475,7 @@ public class VideoSurfaceView extends GLSurfaceView implements LifecycleEventLis
 
     @Override
     public void onHostDestroy() {
-        Log.e("DEBUG", "DESTROY");
+//         Log.e("DEBUG", "DESTROY");
         // if(mMediaPlayer.isPlaying()){
         //     mMediaPlayer.pause();
         // }
@@ -803,7 +803,7 @@ public class VideoSurfaceView extends GLSurfaceView implements LifecycleEventLis
                     mMediaPlayer.seekTo(seekPos);
                 }
 
-                Log.e("DEBUG", "SEEK POS "+ seekPos);
+//                 Log.e("DEBUG", "SEEK POS "+ seekPos);
                 playerReady = true;
 
                 WritableMap event = Arguments.createMap();
