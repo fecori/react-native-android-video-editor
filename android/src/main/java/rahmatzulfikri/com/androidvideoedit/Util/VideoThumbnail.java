@@ -85,7 +85,7 @@ public class VideoThumbnail extends RelativeLayout implements OnTouchListener{
             @Override
             public void run() {
                 if (layoutHeight > 0) {
-                    Log.e("DEBUG", "INI" + layoutHeight + " "+layoutWidth);
+//                     Log.e("DEBUG", "INI" + layoutHeight + " "+layoutWidth);
                     videoPlayerSeek.setLayoutParams(new LayoutParams(layoutHeight,layoutHeight));
                 } else {
                     setLayout();
@@ -112,7 +112,7 @@ public class VideoThumbnail extends RelativeLayout implements OnTouchListener{
 
 
     public void setXpos(int xpos){
-        Log.e("DEBUG", "INI "+xpos);
+//         Log.e("DEBUG", "INI "+xpos);
         if(this.xpos != xpos){
             this.xpos = xpos;
         }
@@ -205,7 +205,7 @@ public class VideoThumbnail extends RelativeLayout implements OnTouchListener{
             case MotionEvent.ACTION_DOWN:
                 break;
             case MotionEvent.ACTION_MOVE:
-                Log.e("DEBUG", "INI "+event.getX());
+//                 Log.e("DEBUG", "INI "+event.getX());
                 setXpos((int)event.getX());
                 break;
             case MotionEvent.ACTION_CANCEL:
