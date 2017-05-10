@@ -14,6 +14,7 @@ public class Events{
     public static final String VIDEO_PROGRESS = "videoProgress";
     public static final String VIDEO_COMPLETED = "videoCompleted";
     public static final String VIDEO_READY = "videoReady";
+    public static final String VIDEO_PLAYER_STATUS = "videoPlayerStatus";
 
     /* VideoTrim Events */
     // Callback
