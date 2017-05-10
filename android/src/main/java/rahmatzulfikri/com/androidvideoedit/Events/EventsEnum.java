@@ -6,6 +6,7 @@ public enum EventsEnum {
     EVENT_GET_VIDEO_PROGRESS("videoProgressListener"),
     EVENT_GET_VIDEO_COMPLETED("videoCompletedListener"),
     EVENT_GET_VIDEO_READY("videoReadyListener"),
+    EVENT_GET_VIDEO_PLAYER_STATUS("videoPlayerStatusListener"),
 
     /* EVENT FOR VIDEO TRIM */
     EVENT_GET_START_POS("getStartPos"),
