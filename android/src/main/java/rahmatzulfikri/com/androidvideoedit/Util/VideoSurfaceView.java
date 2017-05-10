@@ -377,6 +377,9 @@ public class VideoSurfaceView extends GLSurfaceView implements LifecycleEventLis
         if(mMediaPlayer.isPlaying()){
             mMediaPlayer.pause();
             mMessageHandler.removeMessages(SHOW_PROGRESS);
+            WritableMap event = Arguments.createMap();
+            event.putBoolean(Events.VIDEO_PLAYER_STATUS, false);
+            eventEmitter.receiveEvent(getId(), EventsEnum.EVENT_GET_VIDEO_PLAYER_STATUS.toString(), event);
         }
     }
 
@@ -384,15 +387,24 @@ public class VideoSurfaceView extends GLSurfaceView implements LifecycleEventLis
         if(!mMediaPlayer.isPlaying()){
             mMediaPlayer.start();
             mMessageHandler.sendEmptyMessage(SHOW_PROGRESS);
+            WritableMap event = Arguments.createMap();
+            event.putBoolean(Events.VIDEO_PLAYER_STATUS, true);
+            eventEmitter.receiveEvent(getId(), EventsEnum.EVENT_GET_VIDEO_PLAYER_STATUS.toString(), event);
         }
     }
 
     public void paused(boolean isPaused){
         if(isPaused && mMediaPlayer.isPlaying()){
             mMediaPlayer.pause();
+            WritableMap event = Arguments.createMap();
+            event.putBoolean(Events.VIDEO_PLAYER_STATUS, false);
+            eventEmitter.receiveEvent(getId(), EventsEnum.EVENT_GET_VIDEO_PLAYER_STATUS.toString(), event);
         }
         if(!isPaused && !mMediaPlayer.isPlaying()){
             mMediaPlayer.start();
+            WritableMap event = Arguments.createMap();
+            event.putBoolean(Events.VIDEO_PLAYER_STATUS, true);
+            eventEmitter.receiveEvent(getId(), EventsEnum.EVENT_GET_VIDEO_PLAYER_STATUS.toString(), event);
         }
     }
 
@@ -450,15 +462,16 @@ public class VideoSurfaceView extends GLSurfaceView implements LifecycleEventLis
                     mMediaPlayer = new MediaPlayer();
                     mMediaPlayer.setDataSource(videoUri);
                     mRenderer.setMediaPlayer(mMediaPlayer);
-                }else{
-                    if(!mMediaPlayer.isPlaying()){
-                        mMediaPlayer.start();
-                    }
                 }
+                // else{
+                //     if(!mMediaPlayer.isPlaying()){
+                //         mMediaPlayer.start();
+                //     }
+                // }
             }catch(Exception e){
 //                 Log.e("DEBUG", "ERROR = "+e.toString());
             }
-            onPaused = false;
+            // onPaused = false;
         }
     }
 
@@ -467,6 +480,9 @@ public class VideoSurfaceView extends GLSurfaceView implements LifecycleEventLis
 //         Log.e("DEBUG", "PAUSE");
         if(mMediaPlayer.isPlaying()){
             mMediaPlayer.pause();
+            WritableMap event = Arguments.createMap();
+            event.putBoolean(Events.VIDEO_PLAYER_STATUS, false);
+            eventEmitter.receiveEvent(getId(), EventsEnum.EVENT_GET_VIDEO_PLAYER_STATUS.toString(), event);
         }
         // mMediaPlayer.release();
         // mMediaPlayer = null;
@@ -798,6 +814,9 @@ public class VideoSurfaceView extends GLSurfaceView implements LifecycleEventLis
                 surface.release();
                 if(isAutoPlay){
                     mMediaPlayer.start();
+                    WritableMap event = Arguments.createMap();
+                    event.putBoolean(Events.VIDEO_PLAYER_STATUS, true);
+                    mSurfaceView.eventEmitter.receiveEvent(mSurfaceView.getId(), EventsEnum.EVENT_GET_VIDEO_PLAYER_STATUS.toString(), event);
                 }
                 if(seekPos > 0){
                     mMediaPlayer.seekTo(seekPos);
