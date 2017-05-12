@@ -205,6 +205,8 @@ public class VideoSurfaceView extends GLSurfaceView implements LifecycleEventLis
             WritableMap event = Arguments.createMap();
             event.putInt(Events.VIDEO_DURATION, videoDuration);
             eventEmitter.receiveEvent(getId(), EventsEnum.EVENT_GET_VIDEO_DURATION.toString(), event);
+	    retriever.release();
+            retriever = null;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -497,6 +499,16 @@ public class VideoSurfaceView extends GLSurfaceView implements LifecycleEventLis
         // }
         // mMediaPlayer.stop();
         // mMediaPlayer.realease();
+    }
+	
+    public void cleanup() {
+        if (mMediaPlayer == null) {
+            return;
+        }
+        /* Cleanup the media player */
+        mMediaPlayer.stop();
+        mMediaPlayer.release();
+        mMediaPlayer = null;
     }
 
     // @Override
