@@ -107,7 +107,8 @@ public class ImageTextureRenderer extends TextureSurfaceRenderer implements Surf
         photo = mediaMetadataRetriever.getFrameAtTime(position * 1000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
         photoWidth = photo.getWidth();
         photoHeight = photo.getHeight();
-
+        mediaMetadataRetriever.release();
+        mediaMetadataRetriever = null;
         switch (filterCode){
             case 0:
                 fragmentShaderCode = new NoEffect();
