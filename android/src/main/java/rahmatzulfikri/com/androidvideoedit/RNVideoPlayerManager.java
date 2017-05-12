@@ -44,6 +44,7 @@ public class RNVideoPlayerManager extends SimpleViewManager<VideoSurfaceView>{
     @Override
     public void onDropViewInstance(VideoSurfaceView videoSurfaceView){
         super.onDropViewInstance(videoSurfaceView);
+        videoSurfaceView.cleanup();
     }
 
     @Nullable
