@@ -59,6 +59,7 @@ public abstract class TextureSurfaceRenderer implements Runnable
         int i = 0;
         while (running)
         {
+            i++;
             long loopStart = System.currentTimeMillis();
             pingFps();
 
