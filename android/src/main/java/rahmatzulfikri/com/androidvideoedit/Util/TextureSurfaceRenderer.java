@@ -29,6 +29,11 @@ public abstract class TextureSurfaceRenderer implements Runnable
     protected int width;
     protected int height;
     private boolean running;
+    
+    public static final int IMAGE_RENDER = 1;
+    public static final int VIDEO_RENDER = 0;
+
+    private int renderType = VIDEO_RENDER;
 
     /**
      * @param texture Surface texture on which to render. This has to be called AFTER the texture became available
@@ -51,7 +56,7 @@ public abstract class TextureSurfaceRenderer implements Runnable
         initGL();
         initGLComponents();
         Log.d(LOG_TAG, "OpenGL init OK.");
-
+        int i = 0;
         while (running)
         {
             long loopStart = System.currentTimeMillis();
@@ -73,6 +78,10 @@ public abstract class TextureSurfaceRenderer implements Runnable
                 {
                     continue;
                 }
+            }
+            
+            if(i==renderType){
+                running = false;
             }
         }
 
@@ -117,6 +126,14 @@ public abstract class TextureSurfaceRenderer implements Runnable
     public void onPause()
     {
         running = false;
+    }
+    
+    public void setRenderType(int renderType){
+        if(renderType == 1){
+            this.renderType = IMAGE_RENDER;
+        }else{
+            this.renderType = VIDEO_RENDER;
+        }
     }
 
 
