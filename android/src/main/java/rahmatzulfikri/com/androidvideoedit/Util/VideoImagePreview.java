@@ -58,6 +58,7 @@ public class VideoImagePreview extends TextureView implements TextureView.Surfac
 
     private void setup(SurfaceTexture surface){
         mRenderer = new ImageTextureRenderer(mContext, surface, surfaceWidth, surfaceWidth , path, position, filterCode, isCrop);
+        mRenderer.setRenderType(mRenderer.IMAGE_RENDER);
     }
 
     public void setSource(String path){
