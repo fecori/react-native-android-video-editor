@@ -70,7 +70,7 @@ public class CustomSeek {
                     th.setBitmap(BitmapFactory.decodeResource(resources, resImageLeft));
                 }
             } else {
-                int resImageRight = R.drawable.seek;
+                int resImageRight = R.drawable.n_seek;
                 if(imageHeight > 0 && imageWidth > 0){
                     Bitmap bmp = BitmapFactory.decodeResource(resources, resImageRight);
                     th.setBitmap(Bitmap.createScaledBitmap(bmp, imageWidth, imageHeight, false));
