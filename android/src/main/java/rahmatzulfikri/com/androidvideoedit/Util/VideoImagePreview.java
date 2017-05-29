@@ -98,6 +98,7 @@ public class VideoImagePreview extends TextureView implements TextureView.Surfac
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
         surfaceWidth = width;
         surfaceHeight = height;
+        this.surface = surface;
         handleSetup(surface);
     }
 
