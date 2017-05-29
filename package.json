@@ -1,6 +1,6 @@
 {
   "name": "react-native-android-video-editor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React Native Android Component For Video Editor (Preview Only)",
   "main": "index.js",
   "scripts": {},
