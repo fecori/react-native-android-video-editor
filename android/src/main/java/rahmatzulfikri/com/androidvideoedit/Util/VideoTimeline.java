@@ -7,7 +7,11 @@ import android.media.MediaMetadataRetriever;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.LongSparseArray;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.View;
+import android.util.Log;
+
 
 /**
  * Created by Rahmat Zulfikri on 3/21/17.
@@ -25,25 +29,41 @@ public class VideoTimeline extends View {
     private int paddingLeft;
     private int paddingRight;
     private boolean isThubmnail = true;
-    private int x = 0;
+    private float x = 0;
     private int x2 = 0;
     private int x3 = 0;
+    private long mVideoLength = 0;
+
+    Paint paint = new Paint();
+    // Paint text = new Paint();
 
     public VideoTimeline(@NonNull Context context) {
         this(context, null , 0);
         setWillNotDraw(false);
+        paint.setColor(Color.WHITE);
+        paint.setStrokeWidth(3.0f);
+        // text.setColor(Color.WHITE); 
+        // text.setTextSize(25);
     }
 
 
     public VideoTimeline(@NonNull Context context, AttributeSet attrs) {
         this(context, attrs, 0);
         setWillNotDraw(false);
+        paint.setColor(Color.WHITE);
+        paint.setStrokeWidth(3.0f);
+        // text.setColor(Color.WHITE); 
+        // text.setTextSize(25);
     }
 
     public VideoTimeline(@NonNull Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setWillNotDraw(false);
-        init();
+        paint.setColor(Color.WHITE);
+        paint.setStrokeWidth(3.0f);
+        // text.setColor(Color.WHITE); 
+        // text.setTextSize(25);
+        // init();
     }
 
     private void init() {
@@ -57,8 +77,8 @@ public class VideoTimeline extends View {
         layoutHeight = MeasureSpec.getSize(heightMeasureSpec);
         int usedWidth = layoutWidth - (getPaddingLeft() + getPaddingRight());
         if(!isThubmnail){
-            layoutWidth = layoutWidth - Math.round((float)(layoutHeight * 70) / 200f);
-            this.setX(Math.round((float)(layoutHeight * 70) / 200f)/2);
+            layoutWidth = layoutWidth - Math.round((float)(layoutHeight * 40) / 200f);
+            this.setX(Math.round((float)(layoutHeight * 40) / 200f)/2);
             this.setMeasuredDimension( layoutWidth, layoutHeight);
         }else{
             this.setMeasuredDimension(layoutWidth, layoutHeight);
@@ -122,6 +142,7 @@ public class VideoTimeline extends View {
     }
 
     private void getBitmap(final int width) {
+        layoutWidth = width;
         BackgroundExecutor.execute(new BackgroundExecutor.Task("", 0L, "") {
                     @Override
                     public void execute() {
@@ -148,10 +169,11 @@ public class VideoTimeline extends View {
 
                             // Retrieve media data
                             long videoLengthInMs = Integer.parseInt(mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)) * 1000;
+                            mVideoLength = videoLengthInMs / 1000;
                             // Set thumbnail properties (Thumbs are squares)
 
                             final int thumbWidth = getThumbWidth(videoLengthInMs, width);
-                            final int thumbHeight = layoutHeight;
+                            final int thumbHeight = layoutHeight - 40;
 
                             final long interval = getInterval(videoLengthInMs);
 
@@ -203,17 +225,42 @@ public class VideoTimeline extends View {
 
         if (mBitmapList != null) {
             canvas.save();
-            x = 0 + x2;
+            Bitmap bmp = mBitmapList.get(0);
+            float wl = layoutWidth - (bmp.getWidth() * mBitmapList.size());
+            Log.e("DEBUG INI", String.valueOf(wl));
+            if(wl > 0.0f){
+                x = 0.0f + x2 + (wl/2);
+            }else{
+                x = 0.0f + x2;
+            }
 
-            for (int i = 0; i < mBitmapList.size(); i++) {
+            long mInterval = mVideoLength / mBitmapList.size();
+            int i = 0;
+            for (i = 0; i < mBitmapList.size(); i++) {
                 Bitmap bitmap = mBitmapList.get(i);
-
+                float sInterval = bitmap.getWidth()/5.0f;
                 if (bitmap != null) {
-                    canvas.drawBitmap(bitmap, x, 0, null);
+                    for(float j = 1; j< 5; j++){
+                        canvas.drawLine((j*sInterval) + x, 0, (j*sInterval) + x, 10, paint);
+                        canvas.drawLine((j*sInterval) + x, layoutHeight - 10, (j*sInterval) + x, layoutHeight, paint);
+                    }
+                    // float minute = (((i * mInterval) + (mStartVideo)) / 60000.0f);
+                    // String minuteString = String.format ("%.1f", minute);
+                    // canvas.drawText(minuteString, x-15, layoutHeight, text);
+                    canvas.drawBitmap(bitmap, x, 20, null);
+                    canvas.drawLine(x, 0, x, 25, paint);
+                    canvas.drawLine(x, layoutHeight - 25, x, layoutHeight, paint);
                     x = x + bitmap.getWidth();
                 }
             }
-            x3 = x;
+            if(i == mBitmapList.size()){
+                // float minute = (((i * mInterval) + (mStartVideo)) / 60000.0f);
+                // String minuteString = String.format ("%.1f", minute);
+                // canvas.drawText(minuteString, x-15, layoutHeight, text);
+                canvas.drawLine(x, 0, x, 25, paint);
+                canvas.drawLine(x, layoutHeight - 25, x, layoutHeight, paint);
+            }
+            x3 = (int)x;
         }
 
     }
