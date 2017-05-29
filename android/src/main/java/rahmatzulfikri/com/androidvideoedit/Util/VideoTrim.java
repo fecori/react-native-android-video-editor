@@ -89,7 +89,7 @@ public class VideoTrim extends RelativeLayout {
         layoutHeight = View.MeasureSpec.getSize(heightMeasureSpec);
         usedWidth = layoutWidth - getPaddingLeft() - getPaddingRight();
 
-        int seekWidth = Math.round((float)(layoutHeight * 70) / 200f);
+        int seekWidth = Math.round((float)(layoutHeight * 40) / 200f);
 
         this.setMeasuredDimension(layoutWidth, layoutHeight);
 
