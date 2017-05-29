@@ -22,7 +22,7 @@ public class VideoImagePreview extends TextureView implements TextureView.Surfac
     private boolean isCrop = false;
 
     private SurfaceTexture surface = null;
-    private ImageTextureRenderer mRenderer;
+    private ImageTextureRenderer mRenderer = null;
 
     private String path = null;
     private int position;
@@ -66,7 +66,12 @@ public class VideoImagePreview extends TextureView implements TextureView.Surfac
     }
 
     public void setPosition(int position){
-        this.position = position;
+        if(mRenderer == null){
+            this.position = position;
+        }else{
+            mRenderer = new ImageTextureRenderer(mContext, surface, surfaceWidth, surfaceWidth , path, position, filterCode, isCrop);
+            mRenderer.setRenderType(mRenderer.IMAGE_RENDER);
+        }
     }
 
     public void setFilter(int filterCode){
