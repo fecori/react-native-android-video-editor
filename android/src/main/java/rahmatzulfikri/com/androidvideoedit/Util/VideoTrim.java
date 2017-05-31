@@ -12,6 +12,20 @@ import android.media.MediaMetadataRetriever;
 
 import rahmatzulfikri.com.androidvideoedit.R;
 
+package rahmatzulfikri.com.androidvideoedit.Util;
+
+import android.content.Context;
+import android.os.Handler;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.RelativeLayout;
+import android.media.MediaMetadataRetriever;
+
+import rahmatzulfikri.com.androidvideoedit.R;
+
 import rahmatzulfikri.com.androidvideoedit.Events.Events;
 import rahmatzulfikri.com.androidvideoedit.Events.EventsEnum;
 
@@ -87,16 +101,18 @@ public class VideoTrim extends RelativeLayout {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         layoutWidth = View.MeasureSpec.getSize(widthMeasureSpec);
         layoutHeight = View.MeasureSpec.getSize(heightMeasureSpec);
-        usedWidth = layoutWidth - getPaddingLeft() - getPaddingRight();
-
-        int seekWidth = Math.round((float)(layoutHeight * 40) / 200f);
-
+        
         this.setMeasuredDimension(layoutWidth, layoutHeight);
 
-        seekbar.init(layoutHeight, seekWidth);
-        seekbar.measure(usedWidth, layoutHeight);
-        usedWidth = usedWidth - seekWidth;
+        int nLayoutWidth = layoutWidth - Math.round((float)(layoutHeight * 40) / 200f);
+        int imageWidth = nLayoutWidth / 10;
 
+        usedWidth = layoutWidth - (nLayoutWidth - (imageWidth * 10));
+
+        int seekWidth = Math.round((float)(layoutHeight * 40) / 200f);
+        seekbar.init(layoutHeight, seekWidth);
+        seekbar.setMargin((nLayoutWidth - (imageWidth * 10))/2);
+        seekbar.measure(usedWidth, layoutHeight);
     }
 
     /**
