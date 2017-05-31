@@ -12,20 +12,6 @@ import android.media.MediaMetadataRetriever;
 
 import rahmatzulfikri.com.androidvideoedit.R;
 
-package rahmatzulfikri.com.androidvideoedit.Util;
-
-import android.content.Context;
-import android.os.Handler;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.RelativeLayout;
-import android.media.MediaMetadataRetriever;
-
-import rahmatzulfikri.com.androidvideoedit.R;
-
 import rahmatzulfikri.com.androidvideoedit.Events.Events;
 import rahmatzulfikri.com.androidvideoedit.Events.EventsEnum;
 
