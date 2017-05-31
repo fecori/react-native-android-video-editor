@@ -480,15 +480,17 @@ public class VideoSurfaceView extends GLSurfaceView implements LifecycleEventLis
     @Override
     public void onHostPause() {
 //         Log.e("DEBUG", "PAUSE");
-        if(mMediaPlayer.isPlaying()){
-            mMediaPlayer.pause();
-            WritableMap event = Arguments.createMap();
-            event.putBoolean(Events.VIDEO_PLAYER_STATUS, false);
-            eventEmitter.receiveEvent(getId(), EventsEnum.EVENT_GET_VIDEO_PLAYER_STATUS.toString(), event);
+ 	if(mMediaPlayer != null){
+            if(mMediaPlayer.isPlaying()){
+                mMediaPlayer.pause();
+                WritableMap event = Arguments.createMap();
+                event.putBoolean(Events.VIDEO_PLAYER_STATUS, false);
+                eventEmitter.receiveEvent(getId(), EventsEnum.EVENT_GET_VIDEO_PLAYER_STATUS.toString(), event);
+            }
+            // mMediaPlayer.release();
+            // mMediaPlayer = null;
+            onPaused = true;
         }
-        // mMediaPlayer.release();
-        // mMediaPlayer = null;
-        onPaused = true;
     }
 
     @Override
