@@ -105,6 +105,10 @@ public class CustomRangeSeekBarView extends View {
         onSeekStop(this, 0, mCustomThumbs.get(0).getVal());
         onSeekStop(this, 1, mCustomThumbs.get(1).getVal());
     }
+    
+    public void setMargin(float x){
+        this.setX(x);
+    }
 
     @Override
     public void onSizeChanged(int w, int h, int oldw, int oldh) {
