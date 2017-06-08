@@ -1,4 +1,4 @@
-# react-native-android-video-editor
+# react-native-android-video-editor {Readme no update}
 # description
 This is react-native component for android, to handle video editor like trim video, filter video and thumbnail selection. But this component only use for preview only not prosess video editor (mybe next version). This Component have 5 child component :
 
